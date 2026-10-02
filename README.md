@@ -1,114 +1,153 @@
 # 🧠 ContextSense
 
-ContextSense is an educational NLP application that demonstrates how a
-Transformer model processes text using **DistilBERT**, contextual
-representations, and self-attention.
+### Context-Aware Text Understanding using Transformers
 
-## Features
+ContextSense is a mini NLP project built to explore how Transformer-based models understand text through **tokenization, contextual representations and self-attention**.
 
-- DistilBERT-based sentiment classification
-- Hugging Face Transformers
-- Tokenization visualization
-- Self-attention extraction
-- Multi-head attention averaging
-- Interactive attention heatmap
-- Token-level attention scores
-- Streamlit interface
-- PyTorch inference
+Instead of treating a Transformer as a black box, this project provides a simple interface to observe parts of the processing pipeline behind a pretrained Transformer model.
 
-## Architecture
+---
+
+## 🚀 Features
+
+* Transformer-based sentiment analysis
+* Text tokenization visualization
+* Contextual text understanding
+* Self-attention visualization
+* Attention heatmap
+* Token-level attention scores
+* Sentiment confidence score
+* Interactive Streamlit interface
+* Simple explanation of the Transformer pipeline
+
+---
+
+## 🧠 Transformer Pipeline
 
 ```text
-Input Text
+User Input
     ↓
-DistilBERT Tokenizer
+Tokenization
     ↓
-Token IDs
-    ↓
-DistilBERT Embeddings
-    ↓
-Transformer Self-Attention
+Token Embeddings
     ↓
 Transformer Layers
     ↓
-Contextual Representations
+Self-Attention
     ↓
-Classification Head
+Contextual Representation
     ↓
-Positive / Negative + Confidence
+Classification
+    ↓
+Sentiment + Confidence
 ```
 
-## Attention Visualization
+---
 
-ContextSense extracts attention weights from the final DistilBERT
-Transformer layer and averages the attention across all attention heads.
+## 🔍 How It Works
+
+### 1. Tokenization
+
+The input sentence is divided into tokens using the tokenizer associated with the pretrained Transformer model.
+
+Example:
 
 ```text
-DistilBERT
-   ↓
-Final Transformer Layer
-   ↓
-Attention Heads
-   ↓
-Average Across Heads
-   ↓
-Attention Matrix
-   ↓
-Interactive Heatmap
+"The movie was amazing!"
+
+        ↓
+
+["the", "movie", "was", "amazing", "!"]
 ```
 
-## Tech Stack
+---
 
-- Python
-- PyTorch
-- Hugging Face Transformers
-- DistilBERT
-- Streamlit
-- Pandas
-- Plotly
+### 2. Embeddings
 
-## Model
+Each token is converted into a numerical representation that the Transformer can process.
 
-The project uses:
+---
 
-`distilbert-base-uncased-finetuned-sst-2-english`
+### 3. Self-Attention
 
-This is a DistilBERT model fine-tuned for binary sentiment classification
-on the SST-2 task.
+The Transformer calculates relationships between tokens.
 
-## Run Locally
+For example:
 
-### 1. Create a virtual environment
-
-Windows:
-
-```bash
-python -m venv venv
-venv\Scripts\activate
+```text
+"The movie was surprisingly good"
 ```
 
-macOS/Linux:
+The model can use relationships between words such as:
 
-```bash
-python3 -m venv venv
-source venv/bin/activate
+```text
+movie ↔ good
+surprisingly ↔ good
 ```
 
-### 2. Install dependencies
+to build contextual representations.
 
-```bash
-pip install -r requirements.txt
+---
+
+### 4. Contextual Representation
+
+Unlike static word representations, Transformer-based representations can change depending on the surrounding context.
+
+For example:
+
+```text
+I deposited money at the bank.
+
+The boat reached the river bank.
 ```
 
-### 3. Run the application
+The word **bank** appears in different contexts, so its representation can differ.
 
-```bash
-streamlit run app.py
+---
+
+### 5. Classification
+
+The contextual representation is passed through the classification layer to predict the sentiment.
+
+---
+
+## 📊 Attention Visualization
+
+ContextSense extracts attention weights from the final Transformer layer and averages the attention across its attention heads.
+
+The resulting matrix is visualized as a heatmap.
+
+This provides an intuitive way to explore token-to-token attention patterns.
+
+> Note: Attention visualization should be treated as an interpretability aid rather than a definitive explanation of why the model made a prediction.
+
+---
+
+## 🛠️ Tech Stack
+
+* Python
+* PyTorch
+* Hugging Face Transformers
+* Streamlit
+* Pandas
+* NumPy
+* Plotly
+
+---
+
+## 🤖 Model
+
+This project uses:
+
+```text
+distilbert-base-uncased-finetuned-sst-2-english
 ```
 
-The first run downloads the pretrained DistilBERT model from Hugging Face.
+DistilBERT is a smaller Transformer-based model derived from BERT and fine-tuned for sentiment classification.
 
-## Project Structure
+---
+
+## 📁 Project Structure
 
 ```text
 ContextSense/
@@ -116,16 +155,137 @@ ContextSense/
 ├── app.py
 ├── requirements.txt
 ├── README.md
+├── .gitignore
 │
-└── src/
-    ├── __init__.py
-    ├── model.py
-    ├── analyzer.py
-    └── visualization.py
+├── data/
+│   └── sample_sentiment.csv
+│
+├── src/
+│   ├── __init__.py
+│   ├── model.py
+│   ├── analyzer.py
+│   └── visualization.py
+│
+└── assets/
+    └── architecture.png
 ```
 
-## Note
+---
 
-The attention visualization is intended for learning and interpretability.
-Attention weights should not automatically be treated as a definitive
-explanation of why a model made a prediction.
+## ⚙️ Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/ContextSense.git
+```
+
+Move into the project:
+
+```bash
+cd ContextSense
+```
+
+Create a virtual environment:
+
+```bash
+python -m venv venv
+```
+
+Activate it on Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## ▶️ Run the Application
+
+```bash
+streamlit run app.py
+```
+
+The application will open in your browser.
+
+---
+
+## 🧪 Example
+
+Input:
+
+```text
+The movie was surprisingly good!
+```
+
+The application provides:
+
+```text
+Sentiment: POSITIVE
+
+Confidence: ~99%
+
+Tokens:
+[CLS] the movie was surprisingly good ! [SEP]
+```
+
+It also displays the Transformer attention heatmap and token-level attention scores.
+
+---
+
+## 📚 Concepts Explored
+
+Through this project, I explored:
+
+* Tokenization
+* Token Embeddings
+* Contextual Embeddings
+* Self-Attention
+* Multi-Head Attention
+* Transformer Layers
+* Attention Weights
+* Sequence Classification
+* Transfer Learning
+* Transformer-based NLP
+
+---
+
+## 🔮 Future Improvements
+
+* Implement Multi-Head Self-Attention from scratch
+* Add manual Q, K and V visualization
+* Compare BERT and DistilBERT
+* Add multiple NLP tasks
+* Add attention comparison across different layers
+* Add static vs contextual embedding comparison
+* Support custom datasets
+* Add model comparison
+* Deploy the application
+
+---
+
+## 🎯 Learning Objective
+
+The main goal of ContextSense is not simply to perform sentiment classification.
+
+It is to understand what happens inside a Transformer-based NLP pipeline and make concepts such as **tokenization, contextual representations and self-attention** easier to visualize.
+
+---
+
+## 👩‍💻 Author
+
+**Khushi Pandey**
+
+B.Tech CSE (AI)
+
+---
+
+## ⭐ If you found this project useful
+
+Feel free to explore, modify and extend the project to experiment with Transformer-based NLP systems.
